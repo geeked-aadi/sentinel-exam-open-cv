@@ -6,13 +6,21 @@ net = cv2.dnn.readNetFromCaffe(
     "models/res10_300x300_ssd_iter_140000.caffemodel"
 )
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("/dev/video0", cv2.CAP_V4L2)
 
 
 while True:
     ret, frame = cap.read()
+
+    if not ret or frame is None:
+        print("Frame read failed. Exiting safely.")
+        break
+
     frame = cv2.flip(frame, 1)
+
+    # Now safe to use frame.shape
     h, w = frame.shape[:2]
+    cap = cv2.VideoCapture(0)
 
     blob = cv2.dnn.blobFromImage(
         cv2.resize(frame, (300, 300)),
