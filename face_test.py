@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-import os
-print("Current working directory:", os.getcwd())
 
 net = cv2.dnn.readNetFromCaffe(
     "models/deploy.prototxt",
@@ -10,8 +8,10 @@ net = cv2.dnn.readNetFromCaffe(
 
 cap = cv2.VideoCapture(0)
 
+
 while True:
     ret, frame = cap.read()
+    frame = cv2.flip(frame, 1)
     h, w = frame.shape[:2]
 
     blob = cv2.dnn.blobFromImage(
